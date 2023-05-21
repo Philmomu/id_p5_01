@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- We need to include the p5.js library to use the functions provided by the library -->
+    <script sandbox="allow-scripts" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+
+    <!-- Title of the web page -->
+    <title>p5.js Introduction</title>
+
+    <!-- Dynamic part including javascript -->
+    <script type="text/javascript">
+
+    /* 
+    Note:
+    
+    the following are used to comment code: // or /* */
+    // so it's not going to be executed by the browser
+    
+
+    /* 
+    p5.js is a library written in javascript, 1 amongst the 3 langagues used
+    to create content on the web with html and css.
+
+    Html: structure of the page
+    CSS: styling of the page
+    Javascript: interactivity of the page: we will focus on this one
+
+    p5.js facilitate the creation of graphic content on a web page. By providing
+    functions to draw shapes, create animations.
+
+    The sketch canvas is like a mathematical graph, the origin is in the top left corner of the canvas (position 0,0) and we can imagine axis: x and y. The x axis is horizontal and the y axis is vertical. The x axis is increasing from left to right and the y axis is increasing from top to bottom.
+
+    The code is structured as following:
+    --------------------------------------------
+    1. We declare variables where we can store information and reuse it later
+    somewhere elese in the code. There are several types of variables types or structures:
+
+    // A number
+    // A string meaning a text, made of characters
+    // An array, a collection of values with a number 
+    // An object, a collection of values with a name assigned
+
+        let value = 0;                   
+        let name = "John";               
+        let array = [1, 2, 3, 4, 5];     
+        let object = {name: "John", age: 30};
+
+    2. We create a function setup()
+     A function is a block of code that can be reused and provide a specific functionality.
+     The setup() function is called once when the page is loaded. It's going to run
+     only one time. The setup function hosts some parameters that we which to assgin
+     to the sketch or the program. Such as the size of the sketch, the frameRate, the colors.
+
+        function setup() {
+            // code...
+        }
+
+     3. We create a function draw()
+     The draw() function is called repeatedly at speed of the frameRate. It's going to run really fast, we have the feeling that every instructions are executed at the same time but it's actually a sequence of instructions that are executed one after the other. We can then create and apply transformations.
+
+        function draw() {
+            // code...
+        }
+
+    End of the structure
+    --------------------------------------------
+    */
+
+    /* A simple program */ 
+
+    let x = 0; // We declare a variable x for position on x axis and assign it a value of 0
+    let y = 0; // We declare a variable y for position on y axis and assign it a value of 0
+    let angle = 0; // We declare a variable angle and assign it a value of 0
+    let length = 100; // We declare a variable length and assign it a value of 100px
+
+
+    function setup() {
+        // We need to specify the size of the sketch that will occupate the page
+        // The size of the sketch is defined by the width and the height
+        // We can either hardcode values (1) or pass variables that detect automatically
+        // the size of the page (2). The size of the sketch is in pixels.
+
+        createCanvas(400, 400); // (1)
+        // createCanvas(windowWidth, windowHeight); // (2)
+
+        angleMode(DEGREES); // We set the angle mode to degrees
+
+        // We create a background passing in () a code for the color RGB with values between 0 and 255 specifying the intensity of each color channels
+        background(0,0,0);
+
+        // If we run the program, we will see a black square
+
+    }
+   
+    // Draw is used to animate repetitive elements
+    function draw() {
+
+        // We call background here to set a background and also to clear the canvas
+        // We need to clear the canvas on each loop to make the animation work
+
+        background(0,0,0);
+
+
+        // We compute the center of the canvas
+        let centerX = width / 2;
+        let centerY = height / 2;
+
+        // Lets draw a circle
+        // We use the function circle() to draw a circle from p5.js
+        // We pass in () the position of the circle on the x axis, the position of the circle on the y axis and the radius of the circle
+
+        stroke(255, 255, 255); // We set the color of the stroke to white. Stroke describe the outline of a shape
+        strokeWeight(3); // We set the weight of the stroke to 3px
+        noFill() // We remove the fill of the shape
+
+        // We draw a circle
+        circle(200, 200, 200);
+
+        // We can the use the variables declared earlier at the beginning of the sketch
+        x = cos(angle) * length // We use the cosinus function to calculate the position on the x axis
+        y = sin(angle) * length // We use the sinus function to calculate the position on the y axis
+
+        // we offset the position of the circle to the center of the canvas
+        x = x + centerX;
+        y = y + centerY;
+
+        // This 2 functions are called parametric equations, we feed them an angle value and a length and they will compute a position. We can increment repeatedly the angle value to make a path toward a circle and increase the length to make it bigger.
+
+        // We just made the computations, we need to draw the actual elements with the functions provided by p5.js
+
+        stroke(255, 255, 255); // We set the color of the stroke to white. Stroke describe the outline of a shape
+        strokeWeight(1); // We set the weight of the stroke to 1px
+        // We draw a line from the origin to the position calculated
+
+
+        line(centerX, centerY, x, y);
+
+        // the line is static, we need to increment the angle value to make it move so every time the function draw runs we add a value to the angle variable.
+
+        angle += 1; // We increment the angle value by 1°
+
+        // the angle will keep increasing and the line will keep moving until it reaches the end of the canvas. We can add a condition to control the animation
+
+
+        if (angle > 360) { // If the angle is greater than 360°
+            angle = 0; // We reset the angle to 0°
+        } 
+        // you can notice the structure IF which is almost the base of an algorithm. and can be translate to any language as a desription of a process.
+
+        // Example:
+        // If the angle is greater than 360°
+        //      Reset the angle to 0°
+        // Else
+        //      Increment the angle by 1°
+
+        // More examples:
+
+        // We generate a random number between 100 and 200. Random number generation is the based of generative art making use of randomness to create unique and unpredictable results but tunned by the algorithm or code.
+
+        let snow_position_x = random(0, 400); // A random number between 0 and 400 every time the function draw runs every few milliseconds.
+        let snow_position_y = random(0, 400); 
+
+        // We draw a dots at the position of the random number
+        stroke(255, 255, 255); // We set the color of the stroke to white. Stroke describe the outline of a shape
+        strokeWeight(5); // We set the weight of the stroke to 3px
+        point(snow_position_x, snow_position_y); // We draw a point at the position of the random number
+
+    }
+
+
+
+    </script>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: absolute;
+            /*Can also be `fixed`*/
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            box-shadow: -3px -2px rgba(0, 0, 0, 0.1), 5px 3px 3px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+</body>
+
+</html>
